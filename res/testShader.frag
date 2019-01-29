@@ -1,6 +1,6 @@
 #version 330 core
 
-flat in uint frag_tid;
+flat in int frag_tid;
 
 in vec2 frag_texCoords;
 in vec4 frag_color;

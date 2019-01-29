@@ -21,15 +21,9 @@ public final class TextureLoader {
 		
 		TextureMap.put(null, DEFAULT_TEXTURE);
 	}
-		
 	
-	public static void LoadTexture(Image i, TextureConfig config, String name) {
-		Texture newTex = new Texture(i, config);
-		TextureMap.put(name, newTex);
-	}
-	
-	public static void LoadTexture(Image image, String string) {
-		LoadTexture(image, DEFAULT_CONFIG, string);
+	public static void LoadTexture(Texture tex, String string) {
+		TextureMap.put(string, tex);
 	}
 	
 	public static void ClearTexture(String name) {

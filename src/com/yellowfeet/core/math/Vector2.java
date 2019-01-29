@@ -137,6 +137,12 @@ public class Vector2 {
 		return this.dot(dir) / dir.size();
 	}
 	
+	public Vector2 absolute() {
+		x = Mathf.abs(x);
+		y = Mathf.abs(y);
+		return this;
+	}
+	
 	public Vector2 project(Vector2 dir) {
 		return Vector2.normalised(dir).scale(this.scalarProject(dir));
 	}

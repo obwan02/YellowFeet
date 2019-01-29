@@ -3,13 +3,14 @@ package com.yellowfeet.core.graphics;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_SHORT;
 import static org.lwjgl.opengl.GL11.glDrawElements;
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
+
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
 
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
 
 import com.yellowfeet.core.Debug;
 import com.yellowfeet.core.graphics.basic.IBO;
@@ -20,7 +21,7 @@ import com.yellowfeet.core.graphics.texture.Texture;
 import com.yellowfeet.core.graphics.texture.TextureLoader;
 import com.yellowfeet.core.util.Counter;
 
-public class SpriteRenderer implements IRenderer {
+public class SpriteRenderer implements IRenderer<ISprite> {
 	
 	public static final int SPR_MAX_SPRITES = 2500;
 	public static final int SPR_MAX_VERTS = SPR_MAX_SPRITES * 4;
@@ -67,10 +68,10 @@ public class SpriteRenderer implements IRenderer {
 		_ibo = new IBO(SPR_MAX_IBO_BYTES, GL_STATIC_DRAW);
 		initIbo();
 		
-		_vao.specifyAttribPointer(_vbo, Sprite.SHADER_POS_ATTRIB, true);
-		_vao.specifyAttribPointer(_vbo, Sprite.SHADER_TEX_ATTRIB, true);
-		_vao.specifyAttribPointer(_vbo, Sprite.SHADER_TID_ATTRIB, true);
-		_vao.specifyAttribPointer(_vbo, Sprite.SHADER_COL_ATTRIB, true);
+		_vao.specifyAttribPointer(_vbo, ISprite.SHADER_POS_ATTRIB, true);
+		_vao.specifyAttribPointer(_vbo, ISprite.SHADER_TEX_ATTRIB, true);
+		_vao.specifyAttribPointer(_vbo, ISprite.SHADER_TID_ATTRIB, true);
+		_vao.specifyAttribPointer(_vbo, ISprite.SHADER_COL_ATTRIB, true);
 	}
 	
 	public SpriteRenderer(ICamera camera) {
@@ -81,7 +82,6 @@ public class SpriteRenderer implements IRenderer {
 		try(MemoryStack stack = MemoryStack.stackPush()) {
 			
 			ShortBuffer buff = stack.mallocShort(SPR_MAX_INDICES);
-			MemoryUtil.memAllocFloat(2);
 			int offset = 0;
 			//Follows order of 0,1,2,2,3,0
 			for(int i = 0; i < SPR_MAX_SPRITES; i++) {
@@ -102,7 +102,7 @@ public class SpriteRenderer implements IRenderer {
 	//Finds the corresponding texture id, and if it
 	//Doesn't exist, assigns it.
 	//Will start a new cycle if too many textures added
-	private int spriteTextureId(IRenderable sprite) {
+	private int spriteTextureId(ISprite sprite) {
 		int resultId;
 		String texName = sprite.getTextureName();
 		
@@ -129,7 +129,7 @@ public class SpriteRenderer implements IRenderer {
 			if(newTex == null) newTex = TextureLoader.GetTexture(null);
 
 			//Make the texture active 
-			newTex.activeTexture(resultId);
+			Texture.activeTexture(newTex, resultId);
 			_activeTextures.put(texName, resultId);	
 			//Set the relevant texture unit
 			_shaderRef.setUniformInt(SPR_SAMPLERS_NAME + "[" + String.valueOf(resultId) + "]", resultId);
@@ -149,19 +149,19 @@ public class SpriteRenderer implements IRenderer {
 		submit(_camera.getBackground());
 	}
 	
-	public void submit(IRenderable sprite) {
+	public void submit(ISprite sprite) {
 		Debug.Assert(_isSubmitting);
 		
 		int textureId = spriteTextureId(sprite);
 		
-		if(!_iboCounter.checkFit(Sprite.SP_INDEX_COUNT)) {
+		if(!_iboCounter.checkFit(ISprite.SP_INDEX_COUNT)) {
 			flush();
 			begin();
 		}
 		
 		//Auto increases the buffer
 		sprite.appendToBuffer(_vboMappedBuffer, textureId);
-		_iboCounter.increase(Sprite.SP_INDEX_COUNT);
+		_iboCounter.increase(ISprite.SP_INDEX_COUNT);
 	}
 	
 	public boolean isSubmitting() {

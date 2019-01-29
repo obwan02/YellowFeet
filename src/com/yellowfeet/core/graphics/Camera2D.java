@@ -27,7 +27,7 @@ public class Camera2D implements ICamera {
 	
 	public Camera2D(String texture) {
 		transform = new Transform();
-		_backgroundSprite = new Sprite(new Vector2(WIDTH, HEIGHT), texture, Color.Get(Color.WHITE));
+		_backgroundSprite = new Sprite(new Vector2(WIDTH, HEIGHT), texture, Color.WHITE);
 	}
 	
 	@Override

@@ -6,21 +6,21 @@ import java.util.Collection;
 import com.yellowfeet.core.util.ArrayUtil;
 import com.yellowfeet.core.util.Sortable;
 
-public final class SpriteOrderer implements Sortable<Sprite> {
+public final class SpriteOrderer implements Sortable<ISprite> {
 
-	private ArrayList<Sprite> _sprites;
+	private ArrayList<ISprite> _sprites;
 	
 	public SpriteOrderer() {
 		_sprites = new ArrayList<>();
 	}
 	
-	public void register(Sprite sprite) {
+	public void register(ISprite sprite) {
 		_sprites.add(sprite);
 		ArrayUtil.InsertionSort(_sprites, this);
 	}
 	
-	public void massRegister(Sprite[] sprites) {
-		for (Sprite sprite : sprites) _sprites.add(sprite);
+	public void massRegister(ISprite[] sprites) {
+		for (ISprite sprite : sprites) _sprites.add(sprite);
 		ArrayUtil.QuickSort(_sprites, this);
 	}
 
@@ -33,12 +33,12 @@ public final class SpriteOrderer implements Sortable<Sprite> {
 		ArrayUtil.InsertionSort(_sprites, this);
 	}
 	
-	public void remove(Sprite sp) {
+	public void remove(ISprite sp) {
 		_sprites.remove(sp);
 	}
 	
-	public void submitAll(IRenderer sp) {
-		for (Sprite sprite : _sprites) {
+	public void submitAll(IRenderer<ISprite> sp) {
+		for (ISprite sprite : _sprites) {
 			sp.submit(sprite);
 		}
 	}
@@ -48,8 +48,8 @@ public final class SpriteOrderer implements Sortable<Sprite> {
 	}
 	
 	@Override
-	public float getValue(Sprite a) {
-		return a.transform.position.z;
+	public float getValue(ISprite a) {
+		return a.getTransform().position.z;
 	}
 
 }

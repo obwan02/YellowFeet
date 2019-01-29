@@ -2,6 +2,9 @@ package com.yellowfeet.core.graphics.basic;
 
 import com.yellowfeet.core.math.Mathi;
 
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
+@Immutable
 public class Color extends Object {
 	
 	public static final int MAX_VALUE = 255;
@@ -38,34 +41,10 @@ public class Color extends Object {
 		return new Color(~c.r, ~c.g, ~c.b, c.a);
 	}
 	
-	/*
-	 * Final constants are used instead of enums, because
-	 * Of the extra writing required when accessing an internal enum.
-	 * e.g. Color.BasicColor.RED (enum, slow) and Color.RED (static final, fast)
-	 * 
-	 * The colours start from 0xF0.
-	 */
-	public static final int WHITE = 0xF0;
-	public static final int BLACK = 0xF1;
-	public static final int RED   = 0xF2;
-	public static final int BLUE  = 0xF3;
-	public static final int GREEN = 0xF4;
+	public static final Color WHITE = new Color(1, 1, 1, 1);
+	public static final Color BLACK = new Color(0, 0, 0, 1);
+	public static final Color RED   = new Color(1, 0, 0, 1);
+	public static final Color BLUE  = new Color(0, 0, 1, 1);
+	public static final Color GREEN = new Color(0, 1, 0, 1);
 	
-	//@param constant is one of the predefined constants in the Color class.
-	public static Color Get(int constant) {
-		switch(constant) {
-		case WHITE:
-			return new Color(1, 1, 1, 1);
-		case BLACK:
-			return new Color(0, 0, 0, 1);
-		case RED:
-			return new Color(1, 0, 0, 1);
-		case BLUE:
-			return new Color(0, 0, 1, 1);
-		case GREEN:
-			return new Color(0, 1, 0, 1);
-			default:
-				throw new RuntimeException("Invalid color identifier.");
-		}
-	}
 }

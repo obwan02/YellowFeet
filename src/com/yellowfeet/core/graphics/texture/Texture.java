@@ -8,7 +8,7 @@ public class Texture {
 
 	private final int _id;
 	
-	protected Texture(Image image, TextureConfig config) {
+	public Texture(Image image, TextureConfig config) {
 		_id = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, _id);
 		
@@ -35,9 +35,9 @@ public class Texture {
 		glDeleteTextures(_id);
 	}
 	
-	public void activeTexture(int i) {
+	public static void activeTexture(Texture t, int i) {
 		glActiveTexture(GL_TEXTURE0 + i);
-		bind();
+		glBindTexture(GL_TEXTURE_2D, (t == null) ? -1 : t._id);
 		//unbind();
 	}
 	

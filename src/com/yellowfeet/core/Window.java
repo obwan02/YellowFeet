@@ -26,7 +26,7 @@ public class Window {
 	private static Window _instance = null;
 	
 	private long _glfwWindowId;
-	private boolean _running; //for safety
+	private volatile boolean _running; //for safety
 
 	private static float _deltaTime;
 	
@@ -46,9 +46,11 @@ public class Window {
 		GL.createCapabilities(true);
 		GLUtil.setupDebugMessageCallback(System.err);
 		
+		
 		printInfo();
 		
 		openGLInit();
+		_instance = this;
 		GameManager.LoadScene(startScene);
 		run();
 	}
@@ -70,6 +72,8 @@ public class Window {
 		System.out.println("Max Frag Tex Units: " + GL30.glGetInteger(GL30.GL_MAX_TEXTURE_IMAGE_UNITS));
 		System.out.println("Max Array Texture Layers: " + GL30.glGetInteger(GL30.GL_MAX_ARRAY_TEXTURE_LAYERS));
 		System.out.println("Max Texture Size: " + GL30.glGetInteger(GL30.GL_MAX_TEXTURE_SIZE));
+		
+		System.out.println();
 	}
 	
 	/*
@@ -111,7 +115,7 @@ public class Window {
 				prevCountTime = glfwGetTime();
 			}
 		}
-		
+		_running = false;
 		//For safety
 		GameManager.Clean();
 		
@@ -132,7 +136,12 @@ public class Window {
 		return _deltaTime;
 	}
 	
+	public static boolean isRunning() {
+		return _instance._running;
+	}
+	
+	//Starts a new Window (which controls everything) 
 	public static void Start(String title, int width, int height, Scene startscene, boolean fullscreen) {
-		_instance = new Window(title, width, height, fullscreen, startscene);
+		new Window(title, width, height, fullscreen, startscene);
 	}
 }

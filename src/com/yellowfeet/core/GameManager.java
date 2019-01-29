@@ -10,28 +10,25 @@ public final class GameManager {
 	private static Scene _loadedScene;
 	
 	protected static void update() {
+		
 		_loadedScene.update();
 	}
 	
+	//Problematic for large scenes
 	public static void LoadScene(Scene s) {
 		
 		//Clean up previous scene
-		if(_loadedScene != null) {			
-			TextureLoader.ClearAll();
-			_loadedScene.getRenderer().destroy();
-			_loadedScene.getOrderer().removeAll();
-		}
+		Clean();
 		
 		s.init();
-		s.load();         
+		s.load(); 
 		_loadedScene = s;
 	}
 	
-	protected static void Clean() {
+	static void Clean() {
 		if(_loadedScene != null) {
 			TextureLoader.ClearAll();
-			_loadedScene.getRenderer().destroy();
-			_loadedScene.getOrderer().removeAll();
+			_loadedScene.clean();
 		}
 	}
 	

@@ -16,7 +16,7 @@ public final class ShaderGenerator {
 	
 	public static ShaderPart[] GeneratePartsFromName(String name, String folder) {
 		File ffolder = new File(folder);
-		File[] files = ffolder.listFiles();
+		File[] files = ffolder.listFiles(f -> f.getName().startsWith(name));
 		
 		ArrayList<ShaderPart> parts = new ArrayList<>();
 		for(File f : files) {
