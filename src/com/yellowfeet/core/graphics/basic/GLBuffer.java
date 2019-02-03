@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.nio.ByteBuffer;
 
-import com.yellowfeet.core.Debug;
+import com.yellowfeet.core.debug.Debug;
 
 public abstract class GLBuffer {
 	/*

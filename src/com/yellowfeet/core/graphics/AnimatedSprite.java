@@ -2,7 +2,7 @@ package com.yellowfeet.core.graphics;
 
 import java.nio.ByteBuffer;
 
-import com.yellowfeet.core.Debug;
+import com.yellowfeet.core.debug.Debug;
 import com.yellowfeet.core.graphics.basic.Color;
 import com.yellowfeet.core.graphics.basic.Vertex;
 import com.yellowfeet.core.graphics.texture.TextureMap;

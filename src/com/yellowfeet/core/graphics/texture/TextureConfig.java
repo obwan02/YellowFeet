@@ -1,6 +1,11 @@
 package com.yellowfeet.core.graphics.texture;
 
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_REPEAT;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
+import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 public final class TextureConfig {
 
@@ -19,6 +24,9 @@ public final class TextureConfig {
 	protected final int magFilter;
 	protected final int wrapTypeS;
 	protected final int wrapTypeT;
+	
+	public final static TextureConfig DEFAULT_CONFIG = new TextureConfig(ZoomFilter.BILINEAR, WrapType.REPEAT);
+	public final static TextureConfig PIXEL_CONFIG = new TextureConfig(ZoomFilter.NEAREST, WrapType.REPEAT);
 	
 	public TextureConfig(ZoomFilter mag, WrapType x, WrapType y) {
 		magFilter = ParseZoomFilter(mag);

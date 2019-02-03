@@ -32,7 +32,7 @@ public class Camera2D implements ICamera {
 	
 	@Override
 	public Matrix4f getProjectionMatrix() {
-		return Matrix4f.orthographic(-WIDTH/2, WIDTH/2, HEIGHT/2, -HEIGHT/2, 0, 1000);
+		return Matrix4f.orthographic(-WIDTH/2, WIDTH/2, HEIGHT/2, -HEIGHT/2, 1000, -1000);
 	}
 	
 	//Make sure Z = 0
@@ -48,7 +48,7 @@ public class Camera2D implements ICamera {
 		_backgroundSprite.transform.rotation = -transform.rotation;
 		_backgroundSprite.transform.scale = transform.scale;
 		_backgroundSprite.transform.position = transform.position;
-		_backgroundSprite.transform.position.z = -999;
+		_backgroundSprite.transform.position.z = 999;
 		return _backgroundSprite;
 	}
 

@@ -2,7 +2,7 @@ package com.yellowfeet.core.util.image;
 
 import java.nio.ByteBuffer;
 
-import com.yellowfeet.core.Debug;
+import com.yellowfeet.core.debug.Debug;
 import com.yellowfeet.core.graphics.basic.Color;
 
 public class ColorBuffer {

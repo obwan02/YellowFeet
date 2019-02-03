@@ -7,7 +7,9 @@ import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
-public class Image implements AutoCloseable {
+import com.yellowfeet.core.components.Resource;
+
+public class Image implements Resource {
 
 
 	/*
@@ -25,6 +27,7 @@ public class Image implements AutoCloseable {
 	
 	private final ByteBuffer _data;
 	
+	//Loads an image from the ByteBuffer as if it were a file
 	public Image(String filename) {		
 		ByteBuffer data;
 		
@@ -35,12 +38,14 @@ public class Image implements AutoCloseable {
 			
 			STBImage.stbi_set_flip_vertically_on_load(true);
 			data = STBImage.stbi_load(filename, x, y, channels_in_file, CHANNELS);
+			
 			if(data == null) {
-				throw new RuntimeException("Failed to load image: \"" + filename + "\"");
+				throw new RuntimeException("Failed to load image file: <" + filename + ">");
 			}
 			
 			width = x.get(0);
 			height = y.get(0);
+			
 		}
 		
 		_data = data;

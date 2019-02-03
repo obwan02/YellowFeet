@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.system.MemoryUtil;
 
-import com.yellowfeet.core.Debug;
+import com.yellowfeet.core.debug.Debug;
 
 public final class BufferUtil {
 	private BufferUtil() {}

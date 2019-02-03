@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 import org.lwjgl.system.MemoryStack;
 
-import com.yellowfeet.core.Debug;
+import com.yellowfeet.core.debug.Debug;
 import com.yellowfeet.core.graphics.basic.IBO;
 import com.yellowfeet.core.graphics.basic.VAO;
 import com.yellowfeet.core.graphics.basic.VBO;

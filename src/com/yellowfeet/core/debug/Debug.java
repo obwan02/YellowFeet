@@ -1,4 +1,4 @@
-package com.yellowfeet.core;
+package com.yellowfeet.core.debug;
 
 public final class Debug {
 

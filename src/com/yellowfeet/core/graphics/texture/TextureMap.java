@@ -1,6 +1,6 @@
 package com.yellowfeet.core.graphics.texture;
 
-import com.yellowfeet.core.Debug;
+import com.yellowfeet.core.debug.Debug;
 import com.yellowfeet.core.util.image.Image;
 
 public final class TextureMap {
@@ -32,7 +32,7 @@ public final class TextureMap {
 		
 		for(int i = 0; i < images.length; i++) {
 			String tname = name + "_" + String.valueOf(i);
-			TextureLoader.LoadTexture(new Texture(images[i], TextureLoader.DEFAULT_CONFIG), tname);
+			TextureLoader.LoadTexture(images[i], tname);
 			textures[i] = tname;
 			images[i].free();
 		}
@@ -45,7 +45,7 @@ public final class TextureMap {
 		
 		for(int i = 0; i < data.length; i++) {
 			String tname = name + "_" + String.valueOf(i);
-			TextureLoader.LoadTexture(new Texture(data[i], TextureLoader.DEFAULT_CONFIG), tname);
+			TextureLoader.LoadTexture(data[i], tname);
 			textures[i] = tname;
 		}
 		

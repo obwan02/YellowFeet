@@ -24,7 +24,7 @@ public final class SpriteOrderer implements Sortable<ISprite> {
 		ArrayUtil.QuickSort(_sprites, this);
 	}
 
-	public void massRegister(Collection<? extends Sprite> sprites) {
+	public void massRegister(Collection<ISprite> sprites) {
 		_sprites.addAll(sprites);
 		ArrayUtil.QuickSort(_sprites, this);
 	}

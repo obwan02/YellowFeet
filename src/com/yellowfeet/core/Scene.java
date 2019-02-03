@@ -1,6 +1,5 @@
 package com.yellowfeet.core;
 
-import com.yellowfeet.core.components.Resource;
 import com.yellowfeet.core.components.ResourceLoader;
 import com.yellowfeet.core.graphics.Camera2D;
 import com.yellowfeet.core.graphics.ICamera;
@@ -12,10 +11,11 @@ import com.yellowfeet.core.graphics.SpriteOrderer;
 import com.yellowfeet.core.graphics.SpriteRenderer;
 import com.yellowfeet.core.graphics.basic.Color;
 import com.yellowfeet.core.math.Vector2;
-import com.yellowfeet.extra.annotations.EngineMethod;
+import com.yellowfeet.core.util.async.IDynamicTask;
+import com.yellowfeet.extra.annotations.Internal;
 import com.yellowfeet.extra.annotations.NotRecommended;
-import com.yellowfeet.extra.annotations.UserMethod;
-import com.yellowfeet.extra.annotations.UserDefinedMethod;
+import com.yellowfeet.extra.annotations.User;
+import com.yellowfeet.extra.annotations.UserDefined;
 
 public abstract class Scene {
 
@@ -30,55 +30,52 @@ public abstract class Scene {
 	}
 	
 	//Because context management in OpenGL, the constructor can't be used
-	@EngineMethod
+	@Internal
 	protected final void init() {
 		_spriteOrderer = new SpriteOrderer();
 		_spriteRenderer = new SpriteRenderer(camera, ShaderGenerator.GenerateDefault());
 		_resLoader = new ResourceLoader();
 	}
 	
-	@UserDefinedMethod
+	@UserDefined
 	protected abstract void load();
-	@UserDefinedMethod
+	@UserDefined
 	protected abstract void update();
-	@UserDefinedMethod
+	@UserDefined
 	protected abstract void finish();
 	
-	@UserMethod
-	public final void loadResource(Resource res) {
-		_resLoader.loadResouce(res);
+	@User
+	public final void loadResource(IDynamicTask res) {
+		_resLoader.load(res);
 	}
 	
 	@NotRecommended
-	@EngineMethod
 	public final ResourceLoader getResourceLoader() {
 		return _resLoader;
 	}
 	
-	@UserMethod
+	@User
 	public final void register(ISprite sprite) {
 		_spriteOrderer.register(sprite);
 	}
 	
-	@UserMethod
-	public final void destroy(Sprite sprite) {
+	@User
+	public final void destroy(ISprite sprite) {
 		_spriteOrderer.remove(sprite);
 	}
 	
 	@NotRecommended
-	@EngineMethod
 	public final SpriteOrderer getOrderer() {
 		return _spriteOrderer;
 	}
 	
 	@NotRecommended
-	@EngineMethod
 	@SuppressWarnings("rawtypes")
 	public final IRenderer[] getRenderers() {
 		return new IRenderer[] { _spriteRenderer };
 	}
 	
-	@UserMethod
+	@User
 	protected final void render() {
 		_spriteOrderer.reorder();
 		_spriteRenderer.begin();
@@ -86,12 +83,12 @@ public abstract class Scene {
 		_spriteRenderer.flush();
 	}
 
-	@EngineMethod
+	@Internal
 	public final void clean() {
 		finish();
 		_spriteRenderer.destroy();
 		_spriteOrderer.removeAll();
-		_resLoader.stop();
+		_resLoader.finish();
 	}
 
 }
