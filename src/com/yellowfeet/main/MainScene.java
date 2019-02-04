@@ -3,7 +3,6 @@ package com.yellowfeet.main;
 import com.yellowfeet.core.Scene;
 import com.yellowfeet.core.graphics.AnimatedSprite;
 import com.yellowfeet.core.graphics.Sprite;
-import com.yellowfeet.core.graphics.basic.Color;
 import com.yellowfeet.core.graphics.texture.TextureConfig;
 import com.yellowfeet.core.math.Vector2;
 import com.yellowfeet.core.util.Counter;
@@ -24,7 +23,7 @@ public class MainScene extends Scene {
 		loadResource(DynamicTasks.TextureDynamicTask(() -> new Image("res/random_tile.png"), TextureConfig.PIXEL_CONFIG, "awesomeface"));
 		camera.setBackground(new Sprite(new Vector2(16, 9), "background"));
 	
-		sp = new Sprite(new Vector2(2), "awesomefacenb");
+		sp = new Sprite(new Vector2(2), "awesomeface");
 		register(sp);
 	}
 

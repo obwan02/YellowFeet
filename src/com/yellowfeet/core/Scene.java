@@ -20,7 +20,7 @@ import com.yellowfeet.extra.annotations.UserDefined;
 public abstract class Scene {
 
 	private SpriteOrderer _spriteOrderer;
-	private IRenderer<ISprite> _spriteRenderer;
+	private SpriteRenderer _spriteRenderer;
 	private ResourceLoader _resLoader;
 	
 	protected final ICamera camera;
@@ -77,9 +77,11 @@ public abstract class Scene {
 	
 	@User
 	protected final void render() {
-		_spriteOrderer.reorder();
+		//_spriteOrderer.reorder();
 		_spriteRenderer.begin();
-		_spriteOrderer.submitAll(_spriteRenderer);
+		for(ISprite i : _spriteOrderer.get()) {
+			_spriteRenderer.submit(i);
+		}
 		_spriteRenderer.flush();
 	}
 

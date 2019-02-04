@@ -98,45 +98,6 @@ public class SpriteRenderer implements IRenderer<ISprite> {
 			_ibo.bufferSubData(buff, 0);
 		}
 	}
-
-	//Finds the corresponding texture id, and if it
-	//Doesn't exist, assigns it.
-	//Will start a new cycle if too many textures added
-	private int spriteTextureId(ISprite sprite) {
-		int resultId;
-		String texName = sprite.getTextureName();
-		
-		Integer temp = _activeTextures.get(texName);
-		if(temp != null) {
-			resultId = temp;
-		} else {
-			
-			/* If texture isn't active in the current draw loop we must:
-			 * -Add it to the active textures (and check if there aren't too many textures loaded)
-			 * -Make the texture active with the current active texture.
-			 * -Set the corresponding sampler in the shader
-			 */
-			if(_activeTextures.size() > 32) {
-				flush();
-				begin();
-			}
-			
-			//Increase activeTexture
-			resultId = _currentActiveTexture++;
-			
-			//Get the texture
-			Texture newTex = TextureLoader.GetTexture(texName);
-			if(newTex == null) newTex = TextureLoader.GetTexture(null);
-
-			//Make the texture active 
-			Texture.activeTexture(newTex, resultId);
-			_activeTextures.put(texName, resultId);	
-			//Set the relevant texture unit
-			_shaderRef.setUniformInt(SPR_SAMPLERS_NAME + "[" + String.valueOf(resultId) + "]", resultId);
-		}
-		
-		return resultId;
-	}
 	
 	public void begin() {
 		_currentActiveTexture = 0;
@@ -191,6 +152,46 @@ public class SpriteRenderer implements IRenderer<ISprite> {
 	public void destroy() {
 		_vbo.delete();
 		_vao.delete();
+	}
+	
+	//Finds the corresponding texture id, and if it
+	//Doesn't exist, assigns it.
+	//Will start a new cycle if too many textures added
+	private int spriteTextureId(ISprite sprite) {
+		int resultId;
+		String texName = sprite.getTextureName();
+		
+		Integer temp = _activeTextures.get(texName);
+		if(temp != null) {
+			resultId = temp;
+		} else { //Texture isn't in HashMap for this cycle
+			
+			
+			/* If texture isn't active in the current draw loop we must:
+			 * -Add it to the active textures (and check if there aren't too many textures loaded)
+			 * -Make the texture active with the current active texture.
+			 * -Set the corresponding sampler in the shader
+			 */
+			if(_activeTextures.size() > 32) {
+				flush();
+				begin();
+			}
+			
+			//Increase activeTexture
+			resultId = _currentActiveTexture++;
+			
+			//Get the texture
+			Texture newTex = TextureLoader.GetTexture(texName);
+			if(newTex == null) newTex = TextureLoader.GetTexture(null); //load default texture
+
+			//Make the texture active 
+			Texture.activeTexture(newTex, resultId);
+			_activeTextures.put(texName, resultId);	
+			//Set the relevant texture unit
+			_shaderRef.setUniformInt(SPR_SAMPLERS_NAME + "[" + String.valueOf(resultId) + "]", resultId);
+		}
+		
+		return resultId;
 	}
 
 }

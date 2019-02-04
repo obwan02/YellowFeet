@@ -12,6 +12,7 @@ import com.yellowfeet.core.graphics.basic.Vertex;
 import com.yellowfeet.core.graphics.basic.VertexAttrib;
 import com.yellowfeet.core.math.Vector2;
 
+//Used for multiple different types of Sprites, like AnimatedSprite and Sprite
 public interface ISprite extends IRenderable {
 	
 	public Vector2 getSize();

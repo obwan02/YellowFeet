@@ -6,12 +6,18 @@ import java.util.Collection;
 import com.yellowfeet.core.util.ArrayUtil;
 import com.yellowfeet.core.util.Sortable;
 
+
+//Needed so alpha channels will work properly
 public final class SpriteOrderer implements Sortable<ISprite> {
 
 	private ArrayList<ISprite> _sprites;
 	
 	public SpriteOrderer() {
 		_sprites = new ArrayList<>();
+	}
+	
+	public Collection<ISprite> get() {
+		return _sprites;
 	}
 	
 	public void register(ISprite sprite) {
@@ -37,7 +43,7 @@ public final class SpriteOrderer implements Sortable<ISprite> {
 		_sprites.remove(sp);
 	}
 	
-	public void submitAll(IRenderer<ISprite> sp) {
+	public void submitAll(SpriteRenderer sp) {
 		for (ISprite sprite : _sprites) {
 			sp.submit(sprite);
 		}

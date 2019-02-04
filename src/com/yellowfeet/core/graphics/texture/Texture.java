@@ -56,7 +56,7 @@ public class Texture {
 	public static void activeTexture(Texture t, int i) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, (t == null) ? -1 : t._id);
-		//unbind();
+		t.unbind();
 	}
 	
 }
